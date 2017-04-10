@@ -1,4 +1,10 @@
 ---
+- name: ensure libselinux-python installed
+  package:
+    name: libselinux-python
+    state: present
+  become: true
+
 - name: setup docker-ce yum repo
   yum_repository:
     name: docker-ce
