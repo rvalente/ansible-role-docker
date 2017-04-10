@@ -1,0 +1,21 @@
+---
+- name: setup docker-ce yum repo
+  yum_repository:
+    name: docker-ce
+    description: Docker Community Edition
+    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+    gpgkey: https://download.docker.com/linux/centos/gpg
+  become: true
+
+- name: install docker-ce
+  package:
+    name: docker-ce
+    state: present
+  become: true
+
+- name: start docker-ce
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: true

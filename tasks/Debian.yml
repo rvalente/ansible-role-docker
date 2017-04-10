@@ -1,0 +1,37 @@
+---
+- name: install docker-ce dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  become: true
+
+- name: setup docker-ce key
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    state: present
+  become: true
+
+- name: setup docker-ce repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    state: present
+    update_cache: yes
+  become: true
+
+- name: install docker-ce
+  package:
+    name: docker-ce
+    state: present
+  become: true
+
+- name: start docker-ce
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: true
